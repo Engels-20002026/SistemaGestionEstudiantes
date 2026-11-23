@@ -1,0 +1,106 @@
+
+@model IEnumerable<SistemaGestionEstudiantes.Models.Estudiante>
+
+@{
+    ViewData["Title"] = "Gestión de Estudiantes";
+}
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold">Gestión de Estudiantes</h1>
+            <p class="text-muted">Administra los registros académicos.</p>
+        </div>
+
+        <a asp-action="Crear" class="btn btn-primary">
+            + Nuevo estudiante
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form asp-action="Index" method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text"
+                           name="buscar"
+                           class="form-control"
+                           placeholder="Buscar por nombre, apellido o matrícula..." />
+
+                    <button type="submit" class="btn btn-dark">
+                        Buscar
+                    </button>
+
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        Limpiar
+                    </a>
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Matrícula</th>
+                            <th>Carrera</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            @foreach (var estudiante in Model)
+                            {
+                                <tr>
+                                    <td>@estudiante.Id</td>
+                                    <td>@estudiante.Nombre</td>
+                                    <td>@estudiante.Apellido</td>
+                                    <td>@estudiante.Matricula</td>
+                                    <td>@estudiante.Carrera</td>
+                                    <td>@estudiante.Correo</td>
+                                    <td>@estudiante.Telefono</td>
+
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <a asp-action="Editar"
+                                               asp-route-id="@estudiante.Id"
+                                               class="btn btn-warning btn-sm">
+                                                Editar
+                                            </a>
+
+                                            <a asp-action="Eliminar"
+                                               asp-route-id="@estudiante.Id"
+                                               class="btn btn-danger btn-sm">
+                                                Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center py-4">
+                                    No hay estudiantes registrados.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="text-muted mb-0">
+                Total de estudiantes: <strong>@Model.Count()</strong>
+            </p>
+
+        </div>
+    </div>
+</div>
